@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Car, CheckCircle2, ClipboardCheck, Handshake, KeyRound, MapPin, Menu, Search, ShieldCheck, Sparkles, Star, X } from "lucide-react";
 import { getVehicles } from "@/lib/storage";
+import type { Vehicle } from "@/data/vehicles";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [make, setMake] = useState("All");
   const [body, setBody] = useState("All");
   const [budget, setBudget] = useState("All");
-  const [liveVehicles, setLiveVehicles] = useState(() => getVehicles());
+  const [liveVehicles, setLiveVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
     const sync = () => setLiveVehicles(getVehicles());
