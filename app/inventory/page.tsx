@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Check, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, Check, Menu, Search, SlidersHorizontal, X } from "lucide-react";
 import { formatKes } from "@/data/vehicles";
 import { getVehicles } from "@/lib/storage";
 
@@ -11,6 +11,7 @@ export default function InventoryPage() {
   const [body, setBody] = useState("All");
   const [budget, setBudget] = useState("All");
   const [query, setQuery] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [liveVehicles, setLiveVehicles] = useState(() => getVehicles());
 
   useEffect(() => {
@@ -56,25 +57,49 @@ export default function InventoryPage() {
     [make, body, budget, query, liveVehicles]
   );
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <main className="page-shell">
       <header className="inner-nav">
-        <Link href="/" className="brand">
+        <Link href="/" className="brand" onClick={closeMenu}>
           <span className="brand-mark">SM</span>
           <span>
             <strong>Safi Motors</strong>
             <small>Nairobi</small>
           </span>
         </Link>
-        <nav>
+
+        <nav className="inner-desktop-nav">
           <Link href="/">Home</Link>
           <Link className="active" href="/inventory">Inventory</Link>
           <Link href="/sell-your-car">Sell Your Car</Link>
           <Link href="/financing">Financing</Link>
           <Link href="/contact">Contact</Link>
         </nav>
-        <Link href="/contact" className="nav-button">Talk to Safi Motors</Link>
+
+        <Link href="/contact" className="nav-button inner-talk">Talk to Safi Motors</Link>
+
+        <button
+          className="inner-mobile-menu"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label="Toggle navigation"
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </header>
+
+      {menuOpen && (
+        <div className="inner-mobile-nav">
+          <Link href="/" onClick={closeMenu}>Home</Link>
+          <Link className="active" href="/inventory" onClick={closeMenu}>Inventory</Link>
+          <Link href="/sell-your-car" onClick={closeMenu}>Sell Your Car</Link>
+          <Link href="/financing" onClick={closeMenu}>Financing</Link>
+          <Link href="/contact" onClick={closeMenu}>Contact</Link>
+          <Link href="/contact" className="mobile-gold-link" onClick={closeMenu}>Talk to Safi Motors</Link>
+        </div>
+      )}
 
       <section className="page-hero">
         <span className="eyebrow">SAFI MOTORS INVENTORY</span>
@@ -160,10 +185,7 @@ export default function InventoryPage() {
                     <strong>{formatKes(v.price)}</strong>
                   </div>
 
-                  <Link
-                    className="details-button"
-                    href={"/vehicles/" + v.id}
-                  >
+                  <Link className="details-button" href={"/vehicles/" + v.id}>
                     View vehicle <ArrowRight size={16} />
                   </Link>
                 </div>
