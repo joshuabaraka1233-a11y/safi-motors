@@ -14,6 +14,7 @@ export default function Home() {
   const [liveVehicles, setLiveVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
+    setLiveVehicles(getVehicles());
     const sync = () => setLiveVehicles(getVehicles());
     window.addEventListener("safi-data-changed", sync);
     return () => window.removeEventListener("safi-data-changed", sync);
