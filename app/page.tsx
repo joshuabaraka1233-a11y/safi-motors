@@ -34,7 +34,7 @@ export default function Home() {
         <div><label>Model</label><select disabled><option>All models</option></select></div>
         <div><label>Budget</label><select value={budget} onChange={e=>setBudget(e.target.value)}><option>All</option><option>Under 3M</option><option>3M - 6M</option><option>Above 6M</option></select></div>
         <div><label>Body type</label><select value={body} onChange={e=>setBody(e.target.value)}><option>All</option><option>SUV</option><option>Sedan</option></select></div>
-        <Link className="search-button" href="/inventory"><Search size={18}/>Search {filtered.length}</Link>
+        <Link className="search-button" href={`/inventory?make=${encodeURIComponent(make)}&body=${encodeURIComponent(body)}&budget=${encodeURIComponent(budget)}`}><Search size={18}/>Search {filtered.length}</Link>
       </div>
     </div></section>
 
