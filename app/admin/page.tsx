@@ -107,6 +107,34 @@ export default function AdminPage() {
     r.readAsText(f);
   }
 
+  function compressImage(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("Could not read image"));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error("Could not decode image"));
+        img.onload = () => {
+          const maxSize = 1600;
+          const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(img.width * scale));
+          canvas.height = Math.max(1, Math.round(img.height * scale));
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Canvas unavailable"));
+            return;
+          }
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const result = canvas.toDataURL("image/jpeg", 0.78);
+          resolve(result);
+        };
+        img.src = String(reader.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   function uploadImages(files: FileList | null) {
     if (!editing || !files?.length) return;
 
@@ -117,22 +145,12 @@ export default function AdminPage() {
     }
 
     setUploading(true);
-    Promise.all(
-      selected.map(
-        file =>
-          new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(String(reader.result));
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-          })
-      )
-    )
+    Promise.all(selected.map(compressImage))
       .then(images => {
         setEditing(current => current ? { ...current, images: [...current.images, ...images] } : current);
-        setNotice(`${images.length} photo${images.length === 1 ? "" : "s"} added.`);
+        setNotice(`${images.length} photo${images.length === 1 ? "" : "s"} added and optimized.`);
       })
-      .catch(() => setNotice("Could not read the selected image."))
+      .catch(() => setNotice("Could not process the selected image."))
       .finally(() => setUploading(false));
   }
 
