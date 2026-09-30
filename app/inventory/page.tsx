@@ -3,13 +3,21 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Check, Search, SlidersHorizontal } from "lucide-react";
-import { formatKes, vehicles } from "@/data/vehicles";
+import { formatKes } from "@/data/vehicles";
+import { getVehicles } from "@/lib/storage";
 
 export default function InventoryPage() {
   const [make, setMake] = useState("All");
   const [body, setBody] = useState("All");
   const [budget, setBudget] = useState("All");
   const [query, setQuery] = useState("");
+  const [liveVehicles, setLiveVehicles] = useState(getVehicles());
+
+  useEffect(() => {
+    const sync = () => setLiveVehicles(getVehicles());
+    window.addEventListener("safi-data-changed", sync);
+    return () => window.removeEventListener("safi-data-changed", sync);
+  }, []);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -18,7 +26,7 @@ export default function InventoryPage() {
     setBudget(p.get("budget") || "All");
   }, []);
 
-  const makes = ["All", ...Array.from(new Set(vehicles.map((v) => v.make)))];
+  const makes = ["All", ...Array.from(new Set(liveVehicles.map((v) => v.make)))];
   const bodies = ["All", ...Array.from(new Set(vehicles.map((v) => v.body)))];
 
   const filtered = useMemo(() => vehicles.filter((v) => {
@@ -31,7 +39,7 @@ export default function InventoryPage() {
       (budget === "3M - 6M" && v.price >= 3000000 && v.price <= 6000000) ||
       (budget === "Above 6M" && v.price > 6000000);
     return matchesMake && matchesBody && matchesQuery && matchesBudget;
-  }), [make, body, budget, query]);
+  }), [make, body, budget, query, liveVehicles]);
 
   return (
     <main className="page-shell">
