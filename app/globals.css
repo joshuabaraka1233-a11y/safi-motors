@@ -1094,3 +1094,31 @@ html, body {
 .photo-upload-empty strong{color:#fff;font-size:13px}
 .photo-upload-empty span{font-size:11px}
 @media(max-width:700px){.photo-upload-heading{align-items:stretch;flex-direction:column}.upload-photo-button{justify-content:center}.photo-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* DEMO / PREVIEW NOTICE */
+.demo-preview-banner{
+  position:relative;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  padding:9px 18px;
+  background:#17120a;
+  border-bottom:1px solid rgba(215,173,85,.42);
+  color:#eee7d7;
+  font-size:11px;
+  line-height:1.45;
+  text-align:center;
+}
+.demo-preview-banner svg{flex:0 0 auto;color:var(--gold)}
+.demo-preview-banner div{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.demo-preview-banner strong{color:var(--gold);font-size:10px;letter-spacing:.16em}
+.demo-preview-banner span{color:#d5d0c7}
+@media(max-width:600px){
+  .demo-preview-banner{padding:8px 12px;font-size:10px}
+  .demo-preview-banner div{display:block}
+  .demo-preview-banner strong{display:block;margin-bottom:2px}
+}
