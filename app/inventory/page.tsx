@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Check, Menu, Search, SlidersHorizontal, X } from "lucide-react";
 import { formatKes } from "@/data/vehicles";
 import { getVehicles } from "@/lib/storage";
+import type { Vehicle } from "@/data/vehicles";
 
 export default function InventoryPage() {
   const [make, setMake] = useState("All");
@@ -12,7 +13,7 @@ export default function InventoryPage() {
   const [budget, setBudget] = useState("All");
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [liveVehicles, setLiveVehicles] = useState(() => getVehicles());
+  const [liveVehicles, setLiveVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
     const sync = () => setLiveVehicles(getVehicles());
@@ -159,7 +160,7 @@ export default function InventoryPage() {
             {filtered.length} vehicle{filtered.length === 1 ? "" : "s"} found
           </span>
           <span className="demo-note">
-            <Check size={14} /> Demo stock
+            <Check size={14} /> Confirmed stock
           </span>
         </div>
 
