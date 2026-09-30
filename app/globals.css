@@ -900,3 +900,169 @@ footer > * {
     width: calc(100% - 24px);
   }
 }
+
+
+/* RESPONSIVE PRODUCT PAGES — FINAL OVERRIDES */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.inner-nav {
+  width: 100%;
+  padding-left: max(16px, calc((100vw - 1200px) / 2));
+  padding-right: max(16px, calc((100vw - 1200px) / 2));
+  min-width: 0;
+}
+
+.inner-nav .brand {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.inner-desktop-nav {
+  min-width: 0;
+}
+
+.inner-mobile-menu,
+.inner-mobile-nav {
+  display: none;
+}
+
+.vehicle-grid {
+  min-width: 0;
+}
+
+.vehicle-card {
+  min-width: 0;
+}
+
+.vehicle-image {
+  min-width: 0;
+  height: 250px;
+}
+
+.vehicle-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1050px) {
+  .inner-nav {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .inner-desktop-nav {
+    display: none !important;
+  }
+
+  .inner-talk {
+    display: none;
+  }
+
+  .inner-mobile-menu {
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #191c1f;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .inner-mobile-nav {
+    position: sticky;
+    top: 74px;
+    z-index: 49;
+    display: grid;
+    gap: 2px;
+    padding: 10px 16px 14px;
+    background: rgba(15, 17, 18, 0.98);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 18px 35px rgba(0,0,0,.22);
+  }
+
+  .inner-mobile-nav a {
+    display: block;
+    padding: 13px 12px;
+    border-radius: 9px;
+    color: #c5c8ca;
+  }
+
+  .inner-mobile-nav a.active,
+  .inner-mobile-nav a:hover {
+    background: #1d2124;
+    color: #fff;
+  }
+
+  .inner-mobile-nav .mobile-gold-link {
+    margin-top: 5px;
+    background: var(--gold);
+    color: #17120a;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .vehicle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vehicle-title {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-hero {
+    padding-top: 88px;
+  }
+
+  .inventory-wrap {
+    width: calc(100% - 24px);
+  }
+
+  .vehicle-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .vehicle-image {
+    height: 235px;
+  }
+
+  .vehicle-title {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-title strong {
+    margin-top: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .inner-nav {
+    min-height: 65px;
+  }
+
+  .inner-mobile-nav {
+    top: 65px;
+  }
+
+  .page-hero {
+    padding: 78px 12px 50px;
+  }
+
+  .page-hero h1 {
+    font-size: 42px;
+  }
+
+  .vehicle-image {
+    height: 220px;
+  }
+}
