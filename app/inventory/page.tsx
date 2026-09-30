@@ -11,7 +11,14 @@ export default function InventoryPage() {
   const [budget, setBudget] = useState("All");
   const [query, setQuery] = useState("");
 
-  useEffect(() => { const p = new URLSearchParams(window.location.search); setMake(p.get("make") || "All"); setBody(p.get("body") || "All"); setBudget(p.get("budget") || "All"); }, []);\n\n  const makes = ["All", ...Array.from(new Set(vehicles.map((v) => v.make)))];
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    setMake(p.get("make") || "All");
+    setBody(p.get("body") || "All");
+    setBudget(p.get("budget") || "All");
+  }, []);
+
+  const makes = ["All", ...Array.from(new Set(vehicles.map((v) => v.make)))];
   const bodies = ["All", ...Array.from(new Set(vehicles.map((v) => v.body)))];
 
   const filtered = useMemo(() => vehicles.filter((v) => {
